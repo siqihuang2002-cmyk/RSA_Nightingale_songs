@@ -1,0 +1,99 @@
+library(dbscan)
+library(ggplot2)
+library(tidyverse)
+library(dplyr)
+library(R.matlab)
+library(ggtern)
+if(!require(mclust)) install.packages("mclust")
+library(mclust)
+
+# Upload data-------------------------------------------------
+da <- readMat("~/Downloads/IntervalData_ThrushNightingale_3corpora.mat")
+song_intervals  <- da$ThrushNightingaleSongs.intervals.ms
+song.int<-na.omit(song_intervals)
+
+# Cycle duration (cd.song) and rhythm pattern (rr)------------
+pair1<-song.int[-length(song.int)]
+pair2<-song.int[-1]
+cd.song=pair1+pair2
+rr = pair1/cd.song
+
+# 16th note---------------------------------------------------
+sixteen=60/68/4
+data <- data.frame(cd = cd.song/sixteen, rr)
+
+# Prepare for clustering--------------------------------------
+  ## Matrix data?
+  data_matrix <- data.matrix (data[, c("rr", "cd")])
+  ## or Scale the data to standardise the y axis
+  data_for_cl <- scale(data[, c("rr", "cd")])
+    ### Elevate the horizontal sensitivity if needed (dbscan) 
+    data_for_cl[, "rr"] <- data_for_cl[, "rr"] * 2.5
+    ### (hdbscan)
+    data_for_cl[, "rr"] <- data_for_cl[, "rr"] * 4
+
+# Cluster-----------------------------------------------------
+  ## dbscan cluster 
+  cl <- dbscan(data_for_cl, eps = 0.05, minPts = 25)
+  ## or hdbscan?
+  cl <- hdbscan(data_for_cl, minPts = 50)
+  ## or GMM (Gaussian Mixture Models)?
+  fit <- Mclust(data_for_cl, G = 1:6, modelNames = "VVV")
+  summary(fit)
+  final$cluster <- fit$classification
+
+# Data frame for plotting (points and colors)-----------------
+  ## dbscan/hdbscan
+  final <- data.frame(rr, cd = data$cd, cluster = cl$cluster)
+  ## GMM
+  final <- data.frame(rr, cd = data$cd, cluster = fit$classification)
+
+# Arrow data--------------------------------------------------
+  ## Adjacent cluster transition
+  from_cluster <- final$cluster[-nrow(final)]     
+  to_cluster   <- final$cluster[-1]            
+  transitions <- data.frame(from = from_cluster, to = to_cluster)
+  ## Calculate transition numbers (frequencies)
+  trans_count <- transitions %>%
+    group_by(from, to) %>%
+    summarise(count = n(), .groups = "drop")
+  ## Central points (means)
+  center <- final %>%
+    group_by(cluster) %>%
+    summarise(x = mean(rr), y = mean(cd))
+  ## Rename
+  arrows_data <- trans_count %>%
+    left_join(center, by = c("from" = "cluster")) %>%
+    rename(x_from = x, y_from = y) %>%
+    left_join(center, by = c("to" = "cluster")) %>%
+    rename(x_to = x, y_to = y) %>%
+    filter(from != to) 
+  ## Data clean
+  arrows_data_filtered <- arrows_data %>%
+    filter(count >= 100)
+
+# Plotting--------------------------------------------------
+p1 <- ggplot(final,aes(x=rr, y=cd)) +
+  geom_point(data = subset(final, cluster != 0),
+             aes(color = as.factor(cluster)),
+             size = 0.01,alpha = 0.5) +
+  geom_point(data = subset(final, cluster == 0),
+             color = "grey85", shape = 3,
+             size = 0.01,alpha = 0.5) +
+  geom_segment(
+    data = arrows_data_filtered,
+    aes(x = x_from, y = y_from, xend = x_to, yend = y_to,
+        linewidth = count),
+    arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+    color = "black",
+    inherit.aes = FALSE
+  ) +
+  scale_linewidth_continuous(range = c(0.3, 1))+
+  scale_x_continuous(limits = c(0,1), 
+                     breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(limits = c(0,1500), 
+                     breaks = seq(0, 1500, 300)) +
+  labs(x = "pattern", y = "cycle duration")+
+  theme_classic()
+
+plot(p1)
