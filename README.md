@@ -87,13 +87,13 @@ Running the script produces one plot:
 - Black arrows: high-frequency consecutive cluster transitions (filtered by `count >= 100`)
 - Arrow width: scaled to transition frequency
 
-dbscan (rr * 2.5)
+dbscan (rr * 2.5, eps = 0.05, minPts = 25)
 <img width="513" height="450" alt="fig rsa_night_dbscan" src="https://github.com/user-attachments/assets/e978789a-1823-4c8b-a4ea-e416b2da3501" />
 
-hdbscan (rr * 4)
+hdbscan (rr * 4, minPts = 50)
 <img width="513" height="450" alt="fig rsa_night_hdbscan(4)" src="https://github.com/user-attachments/assets/7eab80dd-6e56-435c-9756-a6d2b8c9ea89" />
 
-GGM
+GGM (G = 1:6, modelNames = "VVV)
 <img width="513" height="450" alt="fig rsa_night_gmm" src="https://github.com/user-attachments/assets/8ca1fc3a-3559-4a95-b00b-00ebc1fab1f1" />
 
 
