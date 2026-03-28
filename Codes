@@ -18,9 +18,8 @@ pair2<-song.int[-1]
 cd.song=pair1+pair2
 rr = pair1/cd.song
 
-# 16th note---------------------------------------------------
-sixteen=60/68/4
-data <- data.frame(cd = cd.song/sixteen, rr)
+# Data frame-------------------------------------------------
+data <- data.frame(cd = cd.song, rr)
 
 # Prepare for clustering--------------------------------------
   ## Matrix data?
@@ -90,9 +89,24 @@ p1 <- ggplot(final,aes(x=rr, y=cd)) +
   scale_linewidth_continuous(range = c(0.3, 1))+
   scale_x_continuous(limits = c(0,1), 
                      breaks = seq(0, 1, 0.2)) +
-  scale_y_continuous(limits = c(0,1500), 
-                     breaks = seq(0, 1500, 300)) +
+  scale_y_continuous(limits = c(0,400), 
+                     breaks = seq(0, 400, 100)) +
   labs(x = "pattern", y = "cycle duration")+
   theme_classic()
 
 plot(p1)
+
+
+# Plot without cluster and transitions
+p2 <- ggplot(data,aes(x=rr, y=cd)) +
+  geom_point(size = 0.01,
+             alpha = 0.05)+
+  scale_linewidth_continuous(range = c(0.3, 1))+
+  scale_x_continuous(limits = c(0,1), 
+                     breaks = seq(0, 1, 0.2)) +
+  scale_y_continuous(limits = c(0,400), 
+                     breaks = seq(0, 400, 100)) +
+  theme_classic()
+
+plot(p2)
+
