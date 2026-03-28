@@ -1,3 +1,4 @@
+install.packages("vscDebugger")
 library(dbscan)
 library(ggplot2)
 library(tidyverse)
