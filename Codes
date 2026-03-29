@@ -1,12 +1,19 @@
-install.packages("vscDebugger")
+# Install packages
+rm(list = ls())
 library(dbscan)
 library(ggplot2)
 library(tidyverse)
 library(dplyr)
 library(R.matlab)
 library(ggtern)
-if(!require(mclust)) install.packages("mclust")
 library(mclust)
+
+# If error
+remove.packages(c("ggtern", "ggplot2", "mclust"))
+
+install.packages("ggplot2", type = "binary")
+install.packages("mclust", type = "binary")
+install.packages("ggtern", type = "binary")
 
 # Upload data-------------------------------------------------
 da <- readMat("~/Downloads/IntervalData_ThrushNightingale_3corpora.mat")
@@ -110,4 +117,37 @@ p2 <- ggplot(data,aes(x=rr, y=cd)) +
   theme_classic()
 
 plot(p2)
+
+# Phase plot
+data_phase <- data.frame(interval1 = pair1, interval2 = pair2)
+
+p2 <- ggplot(data,aes(x=interval1, y=interval2)) +
+  geom_point(size = 0.01,
+             alpha = 0.1)+
+  scale_x_continuous(limits = c(0,400), 
+                     breaks = seq(0, 400, 100)) +
+  scale_y_continuous(limits = c(0, 400), 
+                     breaks = seq(0, 400, 100)) +
+  theme_classic()
+
+plot(p2)
+
+test_p <- ggplot(mtcars, aes(wt, mpg)) + geom_point()
+plot(test_p)
+
+# Phase plot-------------------------------------------------
+data_phase <- data.frame(interval1 = pair1, interval2 = pair2)
+
+p3 <- ggplot(data_phase,aes(x=interval1, y=interval2)) +
+  geom_point(size = 0.01,
+             alpha = 0.1)+
+  scale_x_continuous(limits = c(0,400), 
+                     breaks = seq(0, 400, 100)) +
+  scale_y_continuous(limits = c(0, 400), 
+                     breaks = seq(0, 400, 100)) +
+  theme_classic()
+
+plot(p3)
+
+
 
