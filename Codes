@@ -105,7 +105,7 @@ p1 <- ggplot(final,aes(x=rr, y=cd)) +
 plot(p1)
 
 
-# Plot without cluster and transitions
+# Plot without cluster and transitions------------------------------
 p2 <- ggplot(data,aes(x=rr, y=cd)) +
   geom_point(size = 0.01,
              alpha = 0.05)+
