@@ -163,14 +163,14 @@ int1_int <- int1_int[keep]
 int2_int <- int2_int[keep]
 
 df_int <- data.frame(
-  cd = int1_int + int2_int,
-  rr = int1_int / (int1_int + int2_int),
+  cd_test = int1_int + int2_int,
+  rr_test = int1_int / (int1_int + int2_int),
   type = "Integer"
 )
 
 ## Plot
 plot_test <- function(df, title) {
-  ggplot(df, aes(x = rr, y = cd)) +
+  ggplot(df, aes(x = rr_test, y = cd_test)) +
     geom_point(size = 0.01, alpha = 0.05) +
     scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
     scale_y_continuous(limits = c(0, 400), breaks = seq(0, 400, 100)) +
