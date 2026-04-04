@@ -19,12 +19,16 @@ install.packages("ggtern", type = "binary")
 da <- readMat("~/Downloads/IntervalData_ThrushNightingale_3corpora.mat")
 song_intervals  <- da$ThrushNightingaleSongs.intervals.ms
 song.int<-na.omit(song_intervals)
-
+View(song.int)
 # Cycle duration (cd.song) and rhythm pattern (rr)------------
 pair1<-song.int[-length(song.int)]
 pair2<-song.int[-1]
 cd.song=pair1+pair2
 rr = pair1/cd.song
+
+pair1_sorted <- sort(pair1)
+median(pair1_sorted)
+
 
 # Data frame-------------------------------------------------
 data <- data.frame(cd = cd.song, rr)
@@ -104,8 +108,7 @@ p1 <- ggplot(final,aes(x=rr, y=cd)) +
 
 plot(p1)
 
-
-# Plot without cluster and transitions------------------------------
+# Plot without cluster and transitions
 p2 <- ggplot(data,aes(x=rr, y=cd)) +
   geom_point(size = 0.01,
              alpha = 0.05)+
@@ -132,5 +135,52 @@ p3 <- ggplot(data_phase,aes(x=interval1, y=interval2)) +
 
 plot(p3)
 
+# Test tail causes-------------------------------------------
+set.seed(42)
+n <- 50000
+
+## Set indexes, log() and sd(log)----------------------------
+mu_ln <- log(pair1_sorted)
+sigma_ln <- sd(log(pair1_sorted))
+
+## Set continuous intervals----------------------------------
+int1_cont <- rlnorm(n, meanlog = mu_ln, sdlog = sigma_ln)
+int2_cont <- rlnorm(n, meanlog = mu_ln, sdlog = sigma_ln)
+
+df_cont <- data.frame(
+  cd = int1_cont + int2_cont,
+  rr = int1_cont / (int1_cont + int2_cont),
+  type = "Continuous"
+)
+
+## Set integer intervals-------------------------------------
+int1_int <- round(rlnorm(n, meanlog = mu_ln, sdlog = sigma_ln))
+int2_int <- round(rlnorm(n, meanlog = mu_ln, sdlog = sigma_ln))
+
+## Delete 0
+keep <- int1_int > 0 & int2_int > 0
+int1_int <- int1_int[keep]
+int2_int <- int2_int[keep]
+
+df_int <- data.frame(
+  cd = int1_int + int2_int,
+  rr = int1_int / (int1_int + int2_int),
+  type = "Integer"
+)
+
+## Plot
+plot_test <- function(df, title) {
+  ggplot(df, aes(x = rr, y = cd)) +
+    geom_point(size = 0.01, alpha = 0.05) +
+    scale_x_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.2)) +
+    scale_y_continuous(limits = c(0, 400), breaks = seq(0, 400, 100)) +
+    labs(title = title, x = "ratio rhythm", y = "cycle duration (ms)") +
+    theme_classic()
+  }
+
+p1_con <- plot_test(df_cont, "Continuous intervals")
+p2_int <- plot_test(df_int,  "Integer intervals (1ms resolution)")
+p1_con 
+p2_int
 
 
