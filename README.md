@@ -97,4 +97,22 @@ hdbscan (rr * 4, minPts = 50)
 GGM (G = 1:6, modelNames = "VVV)
 <img width="513" height="450" alt="fig rsa_night_gmm" src="https://github.com/user-attachments/assets/8ca1fc3a-3559-4a95-b00b-00ebc1fab1f1" />
 
+**`p2` — Plot without cluster and transitions**
+- x-axis: rhythm ratio (`rr`), ranging from 0 to 1
+- y-axis: cycle duration in 16th note units, ranging from 0 to 1500
+<img width="256" height="224" alt="image" src="https://github.com/user-attachments/assets/25b9918e-7beb-4a39-9e7d-bfed943e4a2c" />
 
+**`p3` — Phase plot**
+- x-axis: the first interval (`interval1`)
+- y-axis: the second interval (`interval2`)
+<img width="256" height="225" alt="image" src="https://github.com/user-attachments/assets/64346010-2550-49a9-9eca-b46671ebc5a8" />
+
+**`p1_con` — Continuous data simulation plot**
+- x-axis: ratio rhythm (`rr_test`), ranging from 0 to 1
+- y-axis: cycle duration (`cd_test`)
+<img width="513" height="449" alt="fig rsa_night_tail_con" src="https://github.com/user-attachments/assets/4b44da1d-ea54-4ce1-9799-238420439042" />
+
+**`p1_int` — Integer simulation plot**
+- x-axis: ratio rhythm (`rr_test`), ranging from 0 to 1
+- y-axis: cycle duration (`cd_test`)
+<img width="513" height="449" alt="fig rsa_night_tail_int" src="https://github.com/user-attachments/assets/eeeb885c-2598-48c0-ad99-bb22c326284e" />
