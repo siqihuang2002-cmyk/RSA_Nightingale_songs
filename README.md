@@ -96,7 +96,7 @@ hdbscan (rr * 4, minPts = 50)
 <img width="513" height="450" alt="fig rsa_night_hdbscan(4,50)" src="https://github.com/user-attachments/assets/33b5c1a9-e577-42ce-842b-8db0e3e8fd63" />
 
 
-GGM (G = 1:6, modelNames = "VVV)
+GMM (G = 1:6, modelNames = "VVV)
 
 <img width="513" height="450" alt="fig rsa_night_gmm" src="https://github.com/user-attachments/assets/8ca1fc3a-3559-4a95-b00b-00ebc1fab1f1" />
 
