@@ -88,13 +88,16 @@ Running the script produces one plot:
 - Arrow width: scaled to transition frequency
 
 dbscan (rr * 2.5, eps = 0.05, minPts = 25)
+
 <img width="513" height="450" alt="fig rsa_night_dbscan" src="https://github.com/user-attachments/assets/e978789a-1823-4c8b-a4ea-e416b2da3501" />
 
 hdbscan (rr * 4, minPts = 50)
+
 <img width="513" height="450" alt="fig rsa_night_hdbscan(4,50)" src="https://github.com/user-attachments/assets/33b5c1a9-e577-42ce-842b-8db0e3e8fd63" />
 
 
 GGM (G = 1:6, modelNames = "VVV)
+
 <img width="513" height="450" alt="fig rsa_night_gmm" src="https://github.com/user-attachments/assets/8ca1fc3a-3559-4a95-b00b-00ebc1fab1f1" />
 
 **`p2` — Plot without cluster and transitions**
