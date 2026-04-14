@@ -96,9 +96,9 @@ hdbscan (rr * 4, minPts = 50)
 <img width="513" height="450" alt="fig rsa_night_hdbscan(4,50)" src="https://github.com/user-attachments/assets/33b5c1a9-e577-42ce-842b-8db0e3e8fd63" />
 
 
-GMM (G = 1:6, modelNames = "VVV)
+GMM (G = 1:9, modelNames = "VVV)
 
-<img width="513" height="450" alt="fig rsa_night_gmm" src="https://github.com/user-attachments/assets/8ca1fc3a-3559-4a95-b00b-00ebc1fab1f1" />
+<img width="350" height="226" alt="image" src="https://github.com/user-attachments/assets/c7b0ae2b-4822-41d2-ab9f-f2cd87308493" />
 
 **`p2` — Plot without cluster and transitions**
 - x-axis: rhythm ratio (`rr`), ranging from 0 to 1
