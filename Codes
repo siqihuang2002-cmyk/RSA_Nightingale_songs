@@ -49,7 +49,9 @@ data <- data.frame(cd = cd.song, rr)
   ## or hdbscan?
   cl <- hdbscan(data_for_cl, minPts = 50)
   ## or GMM (Gaussian Mixture Models)?
-  fit <- Mclust(data_for_cl, G = 1:6, modelNames = "VVV")
+  fit <- Mclust(data_for_cl)
+  fit$modelName
+  fit$G
   summary(fit)
 
 # Data frame for plotting (points and colors)-----------------
